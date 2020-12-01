@@ -1,0 +1,133 @@
+<?php
+    // get_header();
+?>
+<!doctype html>
+<html lang="en">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="icon" href="wp-content/themes/prosek/assets/img/logo.png">
+    <!-- <title>Prosek</title> -->
+    <?php
+        wp_head();
+    ?>
+</head>
+<body>
+
+<div id="wrapper">
+    <div id="sidebar-wrapper" class="collapse d-flex flex-column justify-content-between">
+        <div class="flex-md-grow-1 d-flex flex-column justify-content-between">
+
+            <div class="d-none d-md-block w-100"><img src="wp-content/themes/prosek/assets/img/logo.svg" class="" width="70" /></div>
+            <!-- Side Bar Menu Implementation -->
+            <?php
+                wp_nav_menu(
+                    array(
+                        'menu' => 'primary',
+                        'container' => '',
+                        'theme_location' => 'primary',
+                        'items_wrap' => '<nav class="nav flex-column flex-md-grow-1 justify-content-center smallerFont text-center text-md-left mt-5 pt-5 pb-5 pb-md-auto mt-md-auto main-menu">%3$s</nav>'
+                    )        
+                );
+            ?>
+            <!-- <nav class="nav flex-column flex-md-grow-1 justify-content-center smallerFont text-center text-md-left mt-5 pt-5 pb-5 pb-md-auto mt-md-auto main-menu">
+                <a class="nav-link active" href="#">HOME</a>
+                <a class="nav-link" href="projects.html">PROJECTS</a>
+                <a class="nav-link" href="news_events.html">EVENTS + NEWS</a>
+                <a class="nav-link" href="studio.html">STUDIO</a>
+                <a class="nav-link" href="contact.html">CONTACT</a>
+            </nav> -->
+            <div class="d-none d-md-block pb-md-5">
+                <div class="side-search x-smallerFont font-weight-normal" data-toggle="collapse" data-target="#side-search" aria-expanded="false" aria-controls="side-search">
+                    <span class="mr-2"><img src="wp-content/themes/prosek/assets/img/bootstrap-icons/search.svg" width="10" /></span>SEARCH
+                </div>
+                <div class="collapse mt-4" id="side-search">
+                    <form role="search" action="<?php echo site_url('/'); ?>" method="get" id="searchform">
+                        <div class="form-row">
+                            <input type="text" name="s" value="" class="form-control side-search-input" placeholder="Search..."  required />
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+        </div>
+        <div class="d-none d-md-block row p-3 smallerFont">&copy; 2020 Prosek Architects</div>
+    </div>
+    <!-- Page Content Wrapper  -->
+    <div id="page-content-wrapper" class="p-0 w-100">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-12 p-0">
+
+                    <nav class="navbar bg-transparent w-100 home-nav">
+                        <div class="container-fluid d-flex justify-content-between align-items-center flex-md-row-reverse mt-4">
+                            <?php
+                                // if(function_exists('the_custom_logo')){
+                                //     the_custom_logo();
+                                // }
+                            ?>
+                            <a class="collapsed border-0" href="index.html" style="z-index: 100;"><img src="wp-content/themes/prosek/assets/img/logo.svg" class="logo-img" width="70" /></a>
+                            <!--<button class="btn navbar-toggler collapsed border-0" id="menu-toggle" data-toggle="collapse" data-target="#sidebar-wrapper" aria-controls="sidebar_wrapper" aria-expanded="false" aria-label="Toggle navigation">-->
+                                    <!--<span></span>-->
+                                    <!--<span></span>-->
+                                    <!--<span></span>-->
+                            <!--</button>-->
+                            <button class="home-burger hamburger hamburger--squeeze collapsed mt-2 mt-md-0" id="menu-toggle" data-toggle="collapse" data-target="#sidebar-wrapper">
+                              <span class="hamburger-box">
+                                <span class="hamburger-inner"></span>
+                              </span>
+                            </button>
+                        </div>
+
+                    </nav>
+
+                    <div id="carouselExampleCaptions" class="carousel slide carousel-fade" data-ride="carousel">
+
+                        <ol class="carousel-indicators d-md-none">
+                            <!-- <li data-target="#carouselExampleCaptions" data-slide-to="0" class="active rounded-pill border-0"></li>
+                            <li data-target="#carouselExampleCaptions" data-slide-to="1" class="rounded-pill border-0"></li>
+                            <li data-target="#carouselExampleCaptions" data-slide-to="2" class="rounded-pill border-0"></li> -->
+                            <?php 
+                                $slider = get_posts(array('post_type' => 'slider'));
+                                $counter = 0; ?>
+
+                            <?php foreach($slider as $slide): ?>
+                            <li data-target="#carouselExampleCaptions" data-slide-to="<?php echo $count ?>" class="rounded-pill border-0"></li>
+                            <?php 
+                            $count++;
+                            endforeach;
+                            ?>
+                        </ol>
+                        <?php 
+                        $slider = get_posts(array('post_type' => 'slider')); 
+                         ?>
+                        <div class="carousel-inner">
+                            
+                            <!-- Get Slider Images from wordpress -->
+                            <?php $slider = get_posts(array('post_type' => 'slider', 'posts_per_page' => 5)); ?>
+                                <?php $count = 0; ?>
+                                <?php foreach($slider as $slide): ?>
+                                <div class="carousel-item <?php echo ($count == 0) ? 'active' : ''; ?>" data-interval="5000">
+                                    <img src="<?php echo wp_get_attachment_url( get_post_thumbnail_id($slide->ID)) ?>" class="img-responsive d-block w-100" style="height: 100vh; object-fit: cover;"/>
+                                </div>
+                                <?php $count++; ?>
+                            <?php endforeach; ?>
+
+                        </div>
+                    </div>
+
+                    <div class="w-100 mx-auto text-center" style="position: absolute; top: 50%; z-index: 1000;">
+                        <p class="mx-auto text-white index-text">proArchitecture</p>
+                        <a href="<?php echo get_home_url().'/projects/'; ?>"><button class="btn btn-outline-danger rounded-pill mt-4 exploreBtn">Explore</button></a>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<?php
+    get_footer();
+?>
